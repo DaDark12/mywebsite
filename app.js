@@ -1,108 +1,98 @@
+// app.js - UI interactions, scroll triggers, and email prefill handlers
+
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- 1. Vanta.js 3D Background ---
-    // Initialize the animated background on the hero section
-    try {
-        VANTA.NET({
-            el: "#vanta-bg",
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            scale: 1.00,
-            scaleMobile: 1.00,
-            color: 0xff0000,      // Bright red
-            backgroundColor: 0x0, // Black
-            points: 10.00,
-            maxDistance: 20.00,
-            spacing: 15.00
-        });
-    } catch (e) {
-        console.warn("Vanta.js failed to initialize:", e);
-        document.getElementById('vanta-bg').style.backgroundColor = '#000';
-    }
 
-    
-    // --- 2. Three.js 3D Rotating Object ---
-    // Initialize the rotating "idea crystal" in the feature card
-    try {
-        const container = document.getElementById('3d-object-canvas');
-        if (container) {
-            const scene = new THREE.Scene();
-            
-            // Camera
-            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / 250, 0.1, 1000); // 250 is fallback height
-            camera.position.z = 3;
-
-            // Renderer
-            const renderer = new THREE.WebGLRenderer({ alpha: true }); // Alpha: true for transparent bg
-            renderer.setSize(container.clientWidth, 250); // Use fixed height
-            container.appendChild(renderer.domElement);
-
-            // Object: A red wireframe Icosahedron (a "crystal")
-            const geometry = new THREE.IcosahedronGeometry(1.2);
-            const material = new THREE.MeshBasicMaterial({ 
-                color: 0xff0000, // Red
-                wireframe: true 
-            });
-            const icosahedron = new THREE.Mesh(geometry, material);
-            scene.add(icosahedron);
-
-            // Animation Loop
-            function animate() {
-                requestAnimationFrame(animate);
-                
-                // Rotate the object
-                icosahedron.rotation.x += 0.005;
-                icosahedron.rotation.y += 0.005;
-
-                renderer.render(scene, camera);
-            }
-            animate();
-
-            // Handle Resize
-            function onResize() {
-                if(container.clientWidth > 0) {
-                    const width = container.clientWidth;
-                    const height = 250; // Keep fixed height
-                    camera.aspect = width / height;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(width, height);
-                }
-            }
-            window.addEventListener('resize', onResize, false);
-            onResize(); // Call once to set initial size
-        }
-    } catch (e) {
-        console.warn("Three.js object failed to initialize:", e);
-    }
-
-    
-    // --- 3. Scroll Reveal Animation ---
-    // Use IntersectionObserver to add/remove classes
-    const revealElements = document.querySelectorAll(".scroll-reveal-init");
-    
-    const observerOptions = {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.1 // 10% of element is visible
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("scroll-reveal-active");
-                // Optional: stop observing once it's visible
-                // observer.unobserve(entry.target); 
-            } else {
-                // Optional: remove to re-animate on scroll up
-                // entry.target.classList.remove("scroll-reveal-active");
-            }
-        });
-    }, observerOptions);
-
-    revealElements.forEach(el => {
-        observer.observe(el);
+  // 1) IntersectionObserver for scroll reveals
+  const revealEls = document.querySelectorAll('.scroll-reveal-init');
+  const revealObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('scroll-reveal-active');
+        obs.unobserve(entry.target);
+      }
     });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // 2) Hover-panel reveal (What We Do)
+  const hoverPanel = document.querySelector('.hover-panel');
+  const revealHover = () => {
+    if (!hoverPanel) return;
+    if (window.scrollY > window.innerHeight * 0.35) {
+      hoverPanel.classList.add('visible');
+      window.removeEventListener('scroll', revealHover);
+    }
+  };
+  window.addEventListener('scroll', revealHover);
+  revealHover();
+
+  // 3) Smooth scroll for nav anchors
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      // allow normal behavior if link is e.g. '#'
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#') return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (!target) return;
+      const offset = 80; // navbar offset
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  // 4) Gmail compose open (prefilled) + mailto fallback
+  const gmailBtn = document.getElementById('open-gmail-btn');
+  const mailtoBtn = document.getElementById('open-mailto-btn');
+
+  const recipient = 'hacknow133@gmail.com';
+  const subject = encodeURIComponent('Inquiry from PROJEC7v1s10n Website');
+  const fallbackBody = encodeURIComponent('Hi PROJEC7v1s10n team,\n\nI would like to discuss...');
+
+  const openGmailCompose = (to = recipient, subj = '', body = '') => {
+    // Gmail web compose link
+    const composeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${subj}&body=${body}`;
+    window.open(composeUrl, '_blank');
+  };
+
+  const openMailClient = (to = recipient, subj = '', body = '') => {
+    const mailto = `mailto:${encodeURIComponent(to)}?subject=${subj}&body=${body}`;
+    window.location.href = mailto;
+  };
+
+  if (gmailBtn) {
+    gmailBtn.addEventListener('click', () => openGmailCompose(recipient, subject, fallbackBody));
+  }
+  if (mailtoBtn) {
+    mailtoBtn.addEventListener('click', () => openMailClient(recipient, subject, fallbackBody));
+  }
+
+  // 5) Prefill Gmail from form content
+  const prefillBtn = document.getElementById('prefill-gmail-from-form');
+  const contactForm = document.getElementById('contact-form');
+
+  prefillBtn && prefillBtn.addEventListener('click', () => {
+    const name = document.getElementById('form-name').value || '[No name provided]';
+    const email = document.getElementById('form-email').value || '[No email provided]';
+    const message = document.getElementById('form-message').value || '[No message]';
+
+    const composedBody = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+    openGmailCompose(recipient, encodeURIComponent('Inquiry from PROJEC7v1s10n Website'), composedBody);
+  });
+
+  // 6) Optional: intercept form submit to show a quick toast (not preventing default)
+  if (contactForm) {
+    contactForm.addEventListener('submit', () => {
+      // small UX nudge: letting user know they've submitted (you can expand this)
+      console.log('Form submitted to FormSubmit.co');
+    });
+  }
+
+  // 7) Mobile menu toggle (tiny)
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  mobileBtn && mobileBtn.addEventListener('click', () => {
+    alert('Mobile menu: implement as needed (kept minimal for this release).');
+  });
+
 });
