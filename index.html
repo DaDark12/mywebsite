@@ -3,92 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Website - [Your Brand]</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>PROJEC7v1s10n - We Sell The Vision</title>
+    
+    <!-- 1. Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Load 3D Libraries (three.js is required for vanta.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.net.min.js"></script>
+    
+    <!-- 3. Custom Styles (Fonts, Gradients, Animations) -->
+    <!-- The <style> tag below contains all the CSS -->
+    <style>
+        /* ... CSS content goes here ... */
+    </style>
 </head>
-<body>
 
-    <header class="main-header">
-        <nav class="navbar glass-card">
-            <a href="#hero" class="nav-logo">Logo</a>
-            <ul class="nav-menu">
-                <li><a href="#features" class="nav-link">Features</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            <a href="#contact" class="cta-button nav-button">Get Started</a>
-        </nav>
+<body class="bg-black text-gray-200">
+
+    <!-- ===== Header & Navbar ===== -->
+    <header class="fixed top-0 left-0 w-full z-50 p-4">
+        <!-- ... nav content ... -->
     </header>
 
     <main>
-        <section id="hero" class="hero-section">
-            <div id="particle-bg"></div>
+        <!-- ===== Hero Section ===== -->
+        <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+            <!-- 3D Vanta.js Background -->
+            <div id="vanta-bg"></div>
             
-            <div class="hero-content">
-                <h1 class="hero-logo-glow">Futura</h1>
-                <p class="hero-subtitle">Experience the Next Generation of Design.</p>
-                <a href="#features" class="cta-button hero-button">Learn More</a>
+            <!-- Hero Content -->
+            <div class="relative z-10 p-4">
+                <!-- ... hero content ... -->
             </div>
         </section>
 
-        <section id="features" class="features-section content-section">
-            <h2 class="section-title">Why Choose Us?</h2>
-            <div class="features-grid">
-                
-                <div class="feature-card glass-card reveal-on-scroll">
-                    <div class="card-icon">[Icon 1]</div>
-                    <h3>3D Elements</h3>
-                    <p>Stunning, interactive 3D models that bring your content to life.</p>
+        <!-- ===== Features Section ===== -->
+        <section id="features" class="py-24 px-4 relative z-10 bg-black">
+            <div class="max-w-6xl mx-auto">
+                <!-- ... features content ... -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- ... feature cards ... -->
                 </div>
-
-                <div class="feature-card glass-card reveal-on-scroll">
-                    <div class="card-icon">[Icon 2]</div>
-                    <h3>Sleek UI/UX</h3>
-                    <p>A minimalist, macOS-inspired interface that is intuitive and beautiful.</p>
-                </div>
-
-                <div class="feature-card glass-card reveal-on-scroll">
-                    <div class="card-icon">[Icon 3]</div>
-                    <h3>Pixel Perfect</h3>
-                    <p>Fully responsive design that looks incredible on every device, from mobile to 8K.</p>
-                </div>
-
             </div>
         </section>
 
-        <section id="about" class="about-section content-section">
-            <div class="about-content glass-card reveal-on-scroll">
-                <h2 class="section-title">About Our Vision</h2>
-                <p>We believe in a future where technology and design merge seamlessly. Our mission is to create digital experiences that are not only functional but also inspiring. We're pushing the boundaries with futuristic aesthetics and buttery-smooth performance.</p>
-                <p>Built with passion, precision, and a premium-first mindset.</p>
+        <!-- ===== About Section ===== -->
+        <section id="about" class="py-24 px-4 relative z-10 bg-gray-900 bg-opacity-50">
+            <div class="dark-glass max-w-4xl mx-auto p-8 md:p-12 scroll-reveal-init">
+                <!-- ... about content ... -->
             </div>
         </section>
 
-        <section id="contact" class="contact-section content-section">
-            <h2 class="section-title">Get in Touch</h2>
-            <form id="contact-form" class="contact-form glass-card reveal-on-scroll">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="cta-button">Send Message</button>
-            </form>
+        <!-- ===== Contact Section ===== -->
+        <section id="contact" class="py-24 px-4 relative z-10 bg-black">
+            <div class="max-w-2xl mx-auto">
+                <!-- ... contact form ... -->
+            </div>
         </section>
     </main>
 
-    <footer class="main-footer">
-        <p>&copy; 2025 Futura. All rights reserved.</p>
+    <!-- ===== Footer ===== -->
+    <footer class="py-8 bg-black border-t border-gray-900 relative z-10">
+        <!-- ... footer content ... -->
     </footer>
 
-    <script src="app.js"></script>
+    <!-- ===== JavaScript ===== -->
+    <!-- The <script> tag below contains all the JavaScript -->
+    <script>
+        /* ... JavaScript content goes here ... */
+    </script>
 </body>
 </html>
