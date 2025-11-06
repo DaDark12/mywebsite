@@ -1,153 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PROJEC7v1s10n - We Sell The Vision</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJEC7v1s10n - We Sell The Vision</title>
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Fonts (kept minimal) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- 3D Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.net.min.js"></script>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="style.css" />
-  
-  <!-- 3D / Particle libs (required by 3ddesign.js) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.net.min.js" defer></script>
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap');
+
+        html, body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            overflow-x: hidden; /* 🚫 Stops sideways scrolling */
+        }
+
+        .dark-glass {
+            background: rgba(10, 10, 10, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        /* 🔥 Hover glow effect for feature cards */
+        .dark-glass:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 0, 0, 0.6);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
+        }
+
+        .logo-glow-red {
+            font-weight: 900;
+            color: #fff;
+            text-shadow:
+                0 0 7px #fff,
+                0 0 21px #fff,
+                0 0 42px #ff0000,
+                0 0 82px #ff0000;
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+          to {
+            text-shadow:
+                0 0 7px #fff,
+                0 0 21px #fff,
+                0 0 42px #ff0000;
+          }
+        }
+
+        .btn-red-gradient {
+            background-image: linear-gradient(to right, #dc2626, #7f1d1d);
+            transition: all 0.3s ease;
+        }
+        .btn-red-gradient:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(220, 38, 38, 0.25);
+        }
+
+        #vanta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        /* Scroll reveal animation */
+        .scroll-reveal-init {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .scroll-reveal-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
+
 <body class="bg-black text-gray-200">
 
-  <!-- ===== Header & Navbar ===== -->
-  <header class="fixed top-0 left-0 w-full z-50 p-4">
-    <nav class="dark-glass max-w-5xl mx-auto flex justify-between items-center p-4">
-      <a href="#hero" class="text-2xl font-bold logo-glow-red">PROJEC7v1s10n</a>
+    <!-- ===== Header ===== -->
+    <header class="fixed top-0 left-0 w-full z-50 p-4">
+        <nav class="dark-glass max-w-5xl mx-auto flex justify-between items-center p-4">
+            <a href="#hero" class="text-2xl font-bold logo-glow-red text-white">
+                PROJEC7v1s10n
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#features" class="text-gray-300 hover:text-red-500 transition-colors">What We Do</a>
+                <a href="#about" class="text-gray-300 hover:text-red-500 transition-colors">About</a>
+                <a href="#contact" class="text-gray-300 hover:text-red-500 transition-colors">Get In Touch</a>
+            </div>
+            <a href="#contact" class="btn-red-gradient text-white font-medium py-2 px-5 rounded-lg shadow-lg">
+                Get Vision
+            </a>
+        </nav>
+    </header>
 
-      <div class="hidden md:flex items-center space-x-6">
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#whatwedo" class="nav-link">What We Do</a>
-        <a href="#contactPanel" class="nav-link">Contact</a>
-      </div>
+    <main>
+        <!-- ===== Hero Section ===== -->
+        <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+            <div id="vanta-bg"></div>
+            <div class="relative z-10 p-4">
+                <h1 class="text-5xl md:text-8xl logo-glow-red mb-4">PROJEC7v1s10n</h1>
+                <p class="text-xl md:text-3xl text-gray-300 font-light">We Sell The Vision.</p>
+            </div>
+        </section>
 
-      <div class="flex items-center space-x-3">
-        <a href="#contactPanel" class="btn-red-gradient text-white font-medium py-2 px-4 rounded-lg shadow-lg">Get Vision</a>
-        <button id="mobile-menu-btn" class="md:hidden text-gray-300">Menu</button>
-      </div>
-    </nav>
-  </header>
+        <!-- ===== Features Section ===== -->
+        <section id="features" class="py-24 px-4 relative z-10 bg-black">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-4xl font-bold text-center text-white mb-12 scroll-reveal-init">
+                    Turning Vision Into Value
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-  <main>
-    <!-- ===== Hero Section ===== -->
-    <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
-      <!-- Vanta background container -->
-      <div id="vanta-bg" aria-hidden="true"></div>
+                    <!-- Feature 1 -->
+                    <div class="dark-glass p-6 scroll-reveal-init">
+                        <h3 class="text-2xl font-semibold text-red-500 mb-3">Innovative Business Ideas</h3>
+                        <p class="text-gray-300 mb-4">
+                            We craft profitable ideas designed to dominate your niche — bold, unique, and market-ready.
+                        </p>
+                    </div>
 
-      <!-- Hero Content -->
-      <div class="relative z-10 p-4">
-        <h1 class="text-5xl md:text-8xl logo-glow-red mb-4">PROJEC7v1s10n</h1>
-        <p class="text-xl md:text-3xl text-gray-300 font-light">We Sell The Vision.</p>
-      </div>
-    </section>
+                    <!-- Feature 2 -->
+                    <div class="dark-glass p-6 scroll-reveal-init" style="transition-delay: 200ms;">
+                        <h3 class="text-2xl font-semibold text-red-500 mb-3">Strategic Market Blueprints</h3>
+                        <p class="text-gray-300">
+                            Beyond the idea — we give you the exact roadmap to launch, grow, and outshine competitors.
+                        </p>
+                        <ul class="list-disc list-inside text-gray-400 mt-4 space-y-2">
+                            <li>Market Research</li>
+                            <li>Monetization Strategy</li>
+                            <li>Execution Plan</li>
+                        </ul>
+                    </div>
 
-    <!-- ===== Features Section ===== -->
-    <section id="features" class="py-24 px-4 relative z-10 bg-black">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-4xl font-bold text-center text-white mb-12 scroll-reveal-init">The Architecture of Innovation</h2>
+                    <!-- Feature 3 -->
+                    <div class="dark-glass p-6 scroll-reveal-init" style="transition-delay: 400ms;">
+                        <h3 class="text-2xl font-semibold text-red-500 mb-3">Vision-to-Reality Packages</h3>
+                        <p class="text-gray-300">
+                            We deliver your complete business concept — refined, branded, and investor-ready.
+                        </p>
+                        <p class="text-gray-400 mt-4">
+                            Transform imagination into opportunity and turn your vision into profit.
+                        </p>
+                    </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- 3D Object Card -->
-          <div class="dark-glass p-6 scroll-reveal-init">
-            <h3 class="text-2xl font-semibold text-red-500 mb-3">Conceptual 3D</h3>
-            <p class="text-gray-300 mb-4">We visualize your idea in 3D space, giving it form and substance.</p>
-            <div id="3d-object-canvas" class="w-full h-[250px]"></div>
-          </div>
+                </div>
+            </div>
+        </section>
 
-          <!-- Blueprints -->
-          <div class="dark-glass p-6 scroll-reveal-init" style="transition-delay: 120ms;">
-            <h3 class="text-2xl font-semibold text-red-500 mb-3">Strategic Blueprints</h3>
-            <p class="text-gray-300">Beyond the concept — actionable plans and a roadmap to execution.</p>
-            <ul class="list-disc list-inside text-gray-400 mt-4 space-y-2">
-              <li>Market Feasibility</li>
-              <li>Monetization Strategy</li>
-              <li>Technology Stack</li>
-            </ul>
-          </div>
+        <!-- ===== About Section ===== -->
+        <section id="about" class="py-24 px-4 relative z-10 bg-gray-900 bg-opacity-50">
+            <div class="dark-glass max-w-4xl mx-auto p-8 md:p-12 scroll-reveal-init">
+                <h2 class="text-4xl font-bold text-center text-white mb-8">About The Project</h2>
+                <p class="text-lg text-gray-300 text-center leading-relaxed">
+                    <span class="text-red-500 font-semibold">PROJEC7v1s10n</span> sells high-impact business ideas built for scalability and success.
+                    We turn imagination into monetization — helping founders and creators get a head start in the market.
+                </p>
+                <p class="text-lg text-gray-300 text-center leading-relaxed mt-4">
+                    Our process fuses creativity with strategic precision, giving you market-ready concepts that sell themselves.
+                </p>
+            </div>
+        </section>
 
-          <!-- Concepts -->
-          <div class="dark-glass p-6 scroll-reveal-init" style="transition-delay: 240ms;">
-            <h3 class="text-2xl font-semibold text-red-500 mb-3">Market-Ready Concepts</h3>
-            <p class="text-gray-300">Fully-formed visions packaged for dev teams or investors.</p>
-            <p class="text-gray-400 mt-4">We bridge the gap between a fleeting thought and a tangible product.</p>
-          </div>
+        <!-- ===== Contact Section ===== -->
+        <section id="contact" class="py-24 px-4 relative z-10 bg-black">
+            <div class="max-w-2xl mx-auto">
+                <h2 class="text-4xl font-bold text-center text-white mb-12 scroll-reveal-init">
+                    Get In Touch
+                </h2>
+                <form
+                    action="mailto:hacknow133@gmail.com"
+                    method="POST"
+                    enctype="text/plain"
+                    class="dark-glass p-8 space-y-6 scroll-reveal-init"
+                >
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                        <input type="text" name="name" id="name" required class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Email</label>
+                        <input type="email" name="email" id="email" required class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Your Message</label>
+                        <textarea name="message" id="message" rows="5" required class="w-full bg-gray-900 bg-opacity-50 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500"></textarea>
+                    </div>
+                    <button type="submit" class="w-full btn-red-gradient text-white font-bold py-3 px-6 rounded-lg text-lg">
+                        Send Email
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="py-8 bg-black border-t border-gray-900 relative z-10">
+        <div class="max-w-6xl mx-auto text-center text-gray-500">
+            <p>&copy; 2025 PROJEC7v1s10n. All visions reserved.</p>
         </div>
-      </div>
-    </section>
+    </footer>
 
-    <!-- ===== What We Do (hover-panel) ===== -->
-    <section id="whatwedo" class="py-24 px-6 bg-black text-center relative z-10">
-      <div class="max-w-4xl mx-auto hover-panel dark-glass p-10">
-        <h2 class="text-4xl font-bold text-white mb-6">What We Do</h2>
-        <p class="text-lg text-gray-300 leading-relaxed">
-          At <span class="text-red-500 font-semibold">PROJEC7v1s10n</span>, we transform abstract ideas into market-ready
-          concepts. We handle strategy, design, prototyping, and go-to-market playbooks so founders can ship fast.
-        </p>
-      </div>
-    </section>
+    <!-- ===== JS ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                VANTA.NET({
+                    el: "#vanta-bg",
+                    mouseControls: true,
+                    touchControls: true,
+                    gyroControls: false,
+                    minHeight: 200.00,
+                    minWidth: 200.00,
+                    scale: 1.00,
+                    scaleMobile: 1.00,
+                    color: 0xff0000,
+                    backgroundColor: 0x0,
+                    points: 10.00,
+                    maxDistance: 20.00,
+                    spacing: 15.00
+                });
+            } catch (e) {
+                console.warn("Vanta failed:", e);
+            }
 
-    <!-- ===== Contact Panel (with Gmail + Form options) ===== -->
-    <section id="contactPanel" class="py-24 px-6 bg-black text-center relative z-10">
-      <div class="max-w-3xl mx-auto dark-glass p-10">
-        <h2 class="text-4xl font-bold text-white mb-6">Get in Touch</h2>
-        <p class="text-gray-300 mb-8">Collaborate or pitch us. Use whichever option works: Gmail compose or quick form.</p>
-
-        <!-- Option A: Open Gmail Compose (opens in new tab if user uses Gmail web) -->
-        <div class="mb-6">
-          <button id="open-gmail-btn" class="btn-red-gradient text-white font-bold py-3 px-6 rounded-lg text-lg">
-            ✉️ Open Gmail Compose
-          </button>
-          <button id="open-mailto-btn" class="ml-3 border border-gray-700 text-gray-300 font-medium py-2 px-4 rounded-lg">
-            Open Mail Client
-          </button>
-        </div>
-
-        <div class="text-sm text-gray-400 mb-6">Or submit this quick contact form (sends via FormSubmit.co)</div>
-
-        <!-- Option B: Form (FormSubmit.co) -->
-        <form id="contact-form" action="https://formsubmit.co/hacknow133@gmail.com" method="POST" class="space-y-4">
-          <input type="hidden" name="_subject" value="New Inquiry from PROJEC7v1s10n Website">
-          <input type="hidden" name="_next" value="https://thank-you-page.com">
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input id="form-name" name="name" type="text" required placeholder="Full name" class="input-field" />
-            <input id="form-email" name="email" type="email" required placeholder="Email" class="input-field" />
-          </div>
-
-          <textarea id="form-message" name="message" rows="5" required placeholder="Describe your challenge" class="input-field"></textarea>
-
-          <div class="flex items-center gap-4">
-            <button type="submit" class="btn-red-gradient text-white font-bold py-3 px-6 rounded-lg">Send via Form</button>
-            <button id="prefill-gmail-from-form" type="button" class="border border-gray-700 text-gray-300 py-2 px-4 rounded-lg">
-              Prefill Gmail with this Message
-            </button>
-          </div>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="py-8 bg-black border-t border-gray-900 relative z-10">
-    <div class="max-w-6xl mx-auto text-center text-gray-500">
-      <p>&copy; 2025 PROJEC7v1s10n. All visions reserved.</p>
-    </div>
-  </footer>
-
-  <!-- App logic -->
-  <script src="app.js" defer></script>
-  <!-- 3D / Particle effects -->
-  <script src="3ddesign.js" defer></script>
+            const revealElements = document.querySelectorAll(".scroll-reveal-init");
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add("scroll-reveal-active");
+                });
+            });
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 </html>
